@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DomainInvariantsTest {
 
+    // Проверяет инвариант: толпа из одного участника не может ликовать.
     @Test
     void crowdWithSingleMemberCannotCheer() {
         EventLog eventLog = new EventLog();
@@ -20,6 +21,7 @@ class DomainInvariantsTest {
         assertThrows(IllegalStateException.class, crowd::cheer);
     }
 
+    // Проверяет, что флаг величественности окна и этаж читаются корректно.
     @Test
     void windowMajesticFlagShouldBeReadable() {
         Location secondFloor = new Location("SecondFloor", null);
@@ -31,6 +33,7 @@ class DomainInvariantsTest {
         assertEquals(2, majesticWindow.getFloorNumber());
     }
 
+    // Проверяет, что moveTo меняет локацию/состояние и пишет событие в журнал.
     @Test
     void moveToShouldChangeLocationAndStateAndLogEvent() {
         EventLog eventLog = new EventLog();
@@ -45,6 +48,7 @@ class DomainInvariantsTest {
         assertEquals("Arthur moved to SecondFloor", eventLog.last());
     }
 
+    // Проверяет, что объект добавляется в локацию и доступен через поиск по имени.
     @Test
     void addObjectShouldPutObjectIntoLocation() {
         Location secondFloor = new Location("SecondFloor", null);
@@ -57,6 +61,7 @@ class DomainInvariantsTest {
         assertTrue(secondFloor.findObjectByName("Podium").isPresent());
     }
 
+    // Проверяет удаление участника и неизменяемость множества, возвращаемого getMembers.
     @Test
     void removeMemberShouldUpdateMembersAndGetMembersShouldBeUnmodifiable() {
         EventLog eventLog = new EventLog();
@@ -76,6 +81,7 @@ class DomainInvariantsTest {
                 () -> crowd.getMembers().add(new Person("C", square, eventLog)));
     }
 
+    // Проверяет, что last() возвращает последнее добавленное событие.
     @Test
     void eventLogLastShouldReturnMostRecentEvent() {
         EventLog eventLog = new EventLog();
@@ -85,6 +91,7 @@ class DomainInvariantsTest {
         assertEquals("two", eventLog.last());
     }
 
+    // Проверяет базовые геттеры идентификатора и имени у Person и Crowd.
     @Test
     void personAndCrowdGettersShouldReturnIdAndName() {
         EventLog eventLog = new EventLog();

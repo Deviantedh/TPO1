@@ -10,11 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BubbleSortTest {
 
+    // Проверяет валидацию входных данных: null-массив недопустим.
     @Test
     void nullInputMustThrow() {
         assertThrows(IllegalArgumentException.class, () -> BubbleSort.sortWithTrace(null));
     }
 
+    // Проверяет пустой массив: сортировка не выполняется, только старт и финиш.
     @Test
     void emptyArrayTraceMatchesEtalon() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{});
@@ -26,6 +28,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет массив из одного элемента: изменений и проходов циклов быть не должно.
     @Test
     void singleElementArray() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{42});
@@ -37,6 +40,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет минимальный размер для сортировки (2 элемента) и выполнение ветки обмена.
     @Test
     void twoElementsMinimalSortableSize() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{2, 1});
@@ -53,6 +57,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет случай с одинаковыми элементами и ранний выход без обменов.
     @Test
     void allElementsEqual() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{7, 7, 7});
@@ -71,6 +76,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет корректную сортировку с отрицательными и нулевыми значениями.
     @Test
     void negativeNumbersArray() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{-1, -3, 2, 0});
@@ -93,6 +99,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет базовый случай среднего размера с несколькими проходами и ранним завершением.
     @Test
     void mediumBaseCase() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{4, 1, 3, 2, 5});
@@ -120,6 +127,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет необычный случай на экстремальных значениях int.
     @Test
     void unusualCaseWithExtremeIntValues() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(
@@ -141,6 +149,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет уже отсортированный массив: отсутствие обменов и ранний выход.
     @Test
     void alreadySortedArrayHasEarlyExit() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{1, 2, 3});
@@ -159,6 +168,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет массив в обратном порядке: максимальное число обменов для данного размера.
     @Test
     void reverseArrayUsesSwapBranch() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{3, 2, 1});
@@ -178,6 +188,7 @@ class BubbleSortTest {
         );
     }
 
+    // Проверяет смешанный случай, где покрываются обе ветки: и с обменом, и без обмена.
     @Test
     void mixedArrayCoversBothSwapAndNoSwap() {
         BubbleSort.SortTraceResult result = BubbleSort.sortWithTrace(new int[]{2, 1, 2});

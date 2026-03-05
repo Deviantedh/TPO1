@@ -10,16 +10,12 @@ public class BubbleSort {
     private BubbleSort() {
     }
 
-    /**
-     * Стандартная сортировка пузырьком без трассировки.
-     */
+    /** Стандартная сортировка пузырьком без трассировки */
     public static int[] sort(int[] input) {
         return sortWithTrace(input).sorted();
     }
 
-    /**
-     * Сортировка пузырьком с записью последовательности посещения характерных точек.
-     */
+    /** Сортировка пузырьком с записью последовательности посещения характерных точек */
     public static SortTraceResult sortWithTrace(int[] input) {
         if (input == null) {
             throw new IllegalArgumentException("input must not be null");

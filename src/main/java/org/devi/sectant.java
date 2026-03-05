@@ -5,12 +5,6 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-/**
- * sec(x) via Maclaurin series:
- * sec(x) = sum a_{2n} * x^{2n},
- * a_0 = 1,
- * a_{2n} = sum_{k=0..n-1} (-1)^(n-k-1) * a_{2k} / (2n-2k)!
- */
 public final class sectant {
 
     private sectant() {
@@ -27,20 +21,17 @@ public final class sectant {
     public static final int DEFAULT_MAX_TERMS = 120;
     private static final BigDecimal NEAR_POLE_THRESHOLD = new BigDecimal("1e-9");
 
-    /** Calculates sec(x) with default precision and max iteration count. */
+    /** Считаем sec(x) по базовым параметрам */
     public static BigDecimal sec(BigDecimal x) {
         return secWithDetails(x, DEFAULT_EPS, DEFAULT_MAX_TERMS).getValue();
     }
 
-    /** Calculates sec(x) with custom epsilon and max iteration count. */
+    /** Считаем sec(x) со своим эпсилоном и кол итераций */
     public static BigDecimal sec(BigDecimal x, BigDecimal eps, int maxTerms) {
         return secWithDetails(x, eps, maxTerms).getValue();
     }
 
-    /**
-     * Calculates sec(x) and also returns service metadata for tests:
-     * number of used terms and convergence flag.
-     */
+    /** Считаем sec(x) и выводим доп инфу для тестера */
     public static Evaluation secWithDetails(BigDecimal x, BigDecimal eps, int maxTerms) {
         validateInputs(x, eps, maxTerms);
 
@@ -49,12 +40,12 @@ public final class sectant {
         BigDecimal absXr = xr.abs();
 
         if (absXr.compareTo(HALF_PI) >= 0) {
-            throw new ArithmeticException("sec(x) is undefined at x = pi/2 + k*pi");
+            throw new ArithmeticException("sec(x) не определен в точке x = pi/2 + k*pi");
         }
 
         BigDecimal distToPole = HALF_PI.subtract(absXr, MC);
         if (distToPole.compareTo(NEAR_POLE_THRESHOLD) <= 0) {
-            throw new ArithmeticException("x is too close to a sec(x) pole");
+            throw new ArithmeticException("x слишком близок к полюсу sec(x)");
         }
 
         BigDecimal[] factorial = factorialTable(2 * (maxTerms - 1));
@@ -86,20 +77,19 @@ public final class sectant {
         return new Evaluation(value, termsUsed, converged);
     }
 
-    /** Validates function arguments. */
     private static void validateInputs(BigDecimal x, BigDecimal eps, int maxTerms) {
         if (x == null) {
-            throw new IllegalArgumentException("x must not be null");
+            throw new IllegalArgumentException("x не должен быть null");
         }
         if (eps == null || eps.signum() <= 0) {
-            throw new IllegalArgumentException("eps must be > 0");
+            throw new IllegalArgumentException("eps должен быть больше 0");
         }
         if (maxTerms <= 0) {
-            throw new IllegalArgumentException("maxTerms must be > 0");
+            throw new IllegalArgumentException("maxTerms должен быть больше 0");
         }
     }
 
-    /** Reduces x to (-pi/2, pi/2) and tracks sign changes from sec(x + pi) = -sec(x). */
+    /** Сокращаем аргумент по формуле sec(x + pi) = -sec(x) */
     private static Reduction reduce(BigDecimal x) {
         BigDecimal shifted = x.add(HALF_PI, MC);
         BigInteger k = floorDivide(shifted, PI);
@@ -109,7 +99,7 @@ public final class sectant {
         return new Reduction(reduced, sign);
     }
 
-    /** Floor division for BigDecimal values: floor(numerator / denominator). */
+    /** Целочисленное деление вниз: floor(numerator / denominator) */
     private static BigInteger floorDivide(BigDecimal numerator, BigDecimal denominator) {
         BigDecimal q = numerator.divideToIntegralValue(denominator);
         BigDecimal r = numerator.remainder(denominator);
@@ -122,7 +112,6 @@ public final class sectant {
         return qi;
     }
 
-    /** Builds factorial table 0!..n! for coefficient recurrence. */
     private static BigDecimal[] factorialTable(int n) {
         BigDecimal[] f = new BigDecimal[n + 1];
         f[0] = BigDecimal.ONE;
@@ -132,7 +121,7 @@ public final class sectant {
         return f;
     }
 
-    /** Computes next coefficient a_{2n} using recurrence from previous coefficients. */
+    /** Считаем следующий коэффициент из найденных */
     private static BigDecimal nextSecCoefficient(int n, BigDecimal[] coeff, BigDecimal[] factorial) {
         BigDecimal sum = BigDecimal.ZERO;
         for (int k = 0; k < n; k++) {

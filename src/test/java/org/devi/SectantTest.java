@@ -154,13 +154,13 @@ public class SectantTest {
     private static void assertNearPoleHandled(BigDecimal x, int expectedSign) {
         try {
             BigDecimal value = sectant.sec(x);
-            logCase("near pole x=" + x.toPlainString(), null, value);
+            logCase("около полюса x=" + x.toPlainString(), null, value);
             assertTrue(value.signum() == expectedSign);
             assertTrue(value.abs().compareTo(new BigDecimal("1e8")) > 0);
         } catch (ArithmeticException ex) {
-            System.out.printf("[CASE] near pole x=%s | expected=special-case | actual=EXCEPTION: %s%n",
+            System.out.printf("[КЕЙС] около полюса x=%s | ожидаемое=особый случай | полученное=ИСКЛЮЧЕНИЕ: %s%n",
                     x.toPlainString(), ex.getMessage());
-            assertTrue(ex.getMessage().contains("pole") || ex.getMessage().contains("undefined"));
+            assertTrue(ex.getMessage().contains("полюсу") || ex.getMessage().contains("не определен"));
         }
     }
 
@@ -177,15 +177,15 @@ public class SectantTest {
         logCase(label, expected, actual);
         assertTrue(
                 error.compareTo(tolerance) <= 0,
-                () -> "Expected " + expected.toPlainString() + " but got " + actual.toPlainString() + ", error=" + error
+                () -> "Ожидалось " + expected.toPlainString() + ", получено " + actual.toPlainString() + ", ошибка=" + error
         );
     }
 
     private static void logCase(String label, BigDecimal expected, BigDecimal actual) {
-        String expectedText = expected == null ? "special-case (near pole)" : expected.toPlainString();
+        String expectedText = expected == null ? "особый случай" : expected.toPlainString();
         BigDecimal error = expected == null ? null : actual.subtract(expected, MC).abs();
         String errorText = error == null ? "-" : error.toPlainString();
-        System.out.printf("[CASE] %s | expected=%s | actual=%s | error=%s%n",
+        System.out.printf("[КЕЙС] %s | ожидаемое=%s | полученное=%s | ошибка=%s%n",
                 label, expectedText, actual.toPlainString(), errorText);
     }
 }

@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DomainScenarioTest {
 
+    // Проверяет полный сценарий из условия с порядком ключевых событий в журнале.
     @Test
     void shouldReproduceNarrativeScenarioWithOrderedEvents() {
         EventLog eventLog = new EventLog();
