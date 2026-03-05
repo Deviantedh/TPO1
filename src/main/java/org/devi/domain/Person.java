@@ -45,6 +45,9 @@ public class Person {
         }
         this.location = location;
         this.state = PersonState.MOVING;
+        if (eventLog != null) {
+            eventLog.add(name + " moved to " + location.getName());
+        }
     }
 
     public void slideTo(WorldObject target) {

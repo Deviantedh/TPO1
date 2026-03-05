@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,7 +32,7 @@ class DomainInvariantsTest {
     }
 
     @Test
-    void moveToShouldChangeLocationAndState() {
+    void moveToShouldChangeLocationAndStateAndLogEvent() {
         EventLog eventLog = new EventLog();
         Location building = new Location("Building", null);
         Location secondFloor = new Location("SecondFloor", building);
@@ -41,6 +42,7 @@ class DomainInvariantsTest {
 
         assertEquals(secondFloor, arthur.getLocation());
         assertEquals(PersonState.MOVING, arthur.getState());
+        assertEquals("Arthur moved to SecondFloor", eventLog.last());
     }
 
     @Test
@@ -53,5 +55,46 @@ class DomainInvariantsTest {
         assertEquals(1, secondFloor.getObjects().size());
         assertEquals(podium, secondFloor.getObjects().get(0));
         assertTrue(secondFloor.findObjectByName("Podium").isPresent());
+    }
+
+    @Test
+    void removeMemberShouldUpdateMembersAndGetMembersShouldBeUnmodifiable() {
+        EventLog eventLog = new EventLog();
+        Location square = new Location("Square", null);
+        Crowd crowd = new Crowd("People", square, eventLog);
+        Person first = new Person("A", square, eventLog);
+        Person second = new Person("B", square, eventLog);
+
+        crowd.addMember(first);
+        crowd.addMember(second);
+        crowd.removeMember(first);
+
+        assertEquals(1, crowd.size());
+        assertTrue(crowd.getMembers().contains(second));
+        assertFalse(crowd.getMembers().contains(first));
+        assertThrows(UnsupportedOperationException.class,
+                () -> crowd.getMembers().add(new Person("C", square, eventLog)));
+    }
+
+    @Test
+    void eventLogLastShouldReturnMostRecentEvent() {
+        EventLog eventLog = new EventLog();
+        eventLog.add("one");
+        eventLog.add("two");
+
+        assertEquals("two", eventLog.last());
+    }
+
+    @Test
+    void personAndCrowdGettersShouldReturnIdAndName() {
+        EventLog eventLog = new EventLog();
+        Location square = new Location("Square", null);
+        Person person = new Person("Arthur", square, eventLog);
+        Crowd crowd = new Crowd("People", square, eventLog);
+
+        assertNotNull(person.getId());
+        assertEquals("Arthur", person.getName());
+        assertNotNull(crowd.getId());
+        assertEquals("People", crowd.getName());
     }
 }
