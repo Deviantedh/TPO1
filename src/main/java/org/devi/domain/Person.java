@@ -2,6 +2,7 @@ package org.devi.domain;
 
 import java.util.UUID;
 
+/** Чел в доменной модели */
 public class Person {
     private final UUID id;
     private final String name;
@@ -11,10 +12,10 @@ public class Person {
 
     public Person(String name, Location location, EventLog eventLog) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Person name must not be null or blank");
+            throw new IllegalArgumentException("Имя персонажа не должно быть пустым");
         }
         if (location == null) {
-            throw new IllegalArgumentException("Person location must not be null");
+            throw new IllegalArgumentException("Локация персонажа не должна быть null");
         }
         this.id = UUID.randomUUID();
         this.name = name;
@@ -39,35 +40,38 @@ public class Person {
         return state;
     }
 
+    /** Перемещаем чела в новую локацию и фиксирует событие. */
     public void moveTo(Location location) {
         if (location == null) {
-            throw new IllegalArgumentException("Location must not be null");
+            throw new IllegalArgumentException("Локация назначения не должна быть null");
         }
         this.location = location;
         this.state = PersonState.MOVING;
         if (eventLog != null) {
-            eventLog.add(name + " moved to " + location.getName());
+            eventLog.add(name + " переместился в " + location.getName());
         }
     }
 
+    /** Переводим чела в состояние скольжения к целевому объекту. */
     public void slideTo(WorldObject target) {
         if (target == null) {
-            throw new IllegalArgumentException("Target must not be null");
+            throw new IllegalArgumentException("Целевой объект не должен быть null");
         }
         this.state = PersonState.SLIDING;
         this.location = target.getLocation();
         if (eventLog != null) {
-            eventLog.add(name + " started sliding to " + target.getName());
+            eventLog.add(name + " начал скользить к " + target.getName());
         }
     }
 
+    /** Переводим чела в состояние речи и фиксирует произнесённую фразу. */
     public void say(String phrase) {
         if (phrase == null || phrase.isBlank()) {
-            throw new IllegalArgumentException("Phrase must not be null or blank");
+            throw new IllegalArgumentException("Фраза не должна быть пустой");
         }
         this.state = PersonState.SPEAKING;
         if (eventLog != null) {
-            eventLog.add(name + " addressed people: " + phrase);
+            eventLog.add(name + " обратился к людям: " + phrase);
         }
     }
 }

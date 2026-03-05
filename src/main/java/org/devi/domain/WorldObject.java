@@ -2,6 +2,7 @@ package org.devi.domain;
 
 import java.util.UUID;
 
+/** Базовый объект мира с именем и закреплённой локацией. */
 public abstract class WorldObject {
     private final UUID id;
     private final String name;
@@ -9,10 +10,10 @@ public abstract class WorldObject {
 
     protected WorldObject(String name, Location location) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Object name must not be null or blank");
+            throw new IllegalArgumentException("Имя объекта не должно быть пустым");
         }
         if (location == null) {
-            throw new IllegalArgumentException("Object location must not be null");
+            throw new IllegalArgumentException("Локация объекта не должна быть null");
         }
         this.id = UUID.randomUUID();
         this.name = name;

@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/** Группа людей в общей локации */
 public class Crowd {
     private final UUID id;
     private final String name;
@@ -15,10 +16,10 @@ public class Crowd {
 
     public Crowd(String name, Location location, EventLog eventLog) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Crowd name must not be null or blank");
+            throw new IllegalArgumentException("Название толпы не должно быть пустым");
         }
         if (location == null) {
-            throw new IllegalArgumentException("Crowd location must not be null");
+            throw new IllegalArgumentException("Локация толпы не должна быть null");
         }
         this.id = UUID.randomUUID();
         this.name = name;
@@ -44,35 +45,40 @@ public class Crowd {
         return state;
     }
 
+    /** Добавляет участника в толпу. */
     public void addMember(Person member) {
         if (member == null) {
-            throw new IllegalArgumentException("Member must not be null");
+            throw new IllegalArgumentException("Участник толпы не должен быть null");
         }
         members.add(member);
     }
 
+    /** Удаляет участника из толпы. */
     public void removeMember(Person member) {
         if (member == null) {
-            throw new IllegalArgumentException("Member must not be null");
+            throw new IllegalArgumentException("Участник толпы не должен быть null");
         }
         members.remove(member);
     }
 
+    /** Возвращаем текущее количество участников. */
     public int size() {
         return members.size();
     }
 
+    /** Возвращаем набор участников. */
     public Set<Person> getMembers() {
         return Collections.unmodifiableSet(members);
     }
 
+    /** Переводим толпу в состояние ликования */
     public void cheer() {
         if (members.size() < 2) {
-            throw new IllegalStateException("Crowd must have at least 2 members to cheer");
+            throw new IllegalStateException("Для ликования в толпе должно быть минимум 2 участника");
         }
         this.state = CrowdState.CHEERING;
         if (eventLog != null) {
-            eventLog.add("Crowd cheered");
+            eventLog.add("Толпа разразилась ликующими криками");
         }
     }
 }

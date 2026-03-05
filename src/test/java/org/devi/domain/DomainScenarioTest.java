@@ -32,7 +32,7 @@ class DomainScenarioTest {
         podium.setSpeaker(orator);
 
         crowd.cheer();
-        orator.say("People, listen to me");
+        orator.say("Люди, слушайте меня");
         arthur.slideTo(majesticWindow);
 
         assertEquals(CrowdState.CHEERING, crowd.getState());
@@ -43,8 +43,8 @@ class DomainScenarioTest {
 
         List<String> events = eventLog.events();
         assertEquals(3, events.size());
-        assertEquals("Crowd cheered", events.get(0));
-        assertEquals("Orator addressed people: People, listen to me", events.get(1));
-        assertEquals("Arthur started sliding to Majestic Window", events.get(2));
+        assertEquals("Толпа разразилась ликующими криками", events.get(0));
+        assertEquals("Orator обратился к людям: Люди, слушайте меня", events.get(1));
+        assertEquals("Arthur начал скользить к Majestic Window", events.get(2));
     }
 }

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+/** Локация в мире: может иметь родительскую локацию и набор объектов */
 public class Location {
     private final UUID id;
     private final String name;
@@ -15,7 +16,7 @@ public class Location {
 
     public Location(String name, Location parent) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Location name must not be null or blank");
+            throw new IllegalArgumentException("Название локации не должно быть пустым");
         }
         this.id = UUID.randomUUID();
         this.name = name;
@@ -35,23 +36,26 @@ public class Location {
         return parent;
     }
 
+    /** Добавляем объект в локацию, если его локация совпадает с этой локацией. */
     public void addObject(WorldObject object) {
         if (object == null) {
-            throw new IllegalArgumentException("Object must not be null");
+            throw new IllegalArgumentException("Объект не должен быть null");
         }
         if (!Objects.equals(object.getLocation(), this)) {
-            throw new IllegalArgumentException("Object location must match this location");
+            throw new IllegalArgumentException("Локация объекта должна совпадать с текущей локацией");
         }
         objects.add(object);
     }
 
+    /** Возвращаем список объектов локации. */
     public List<WorldObject> getObjects() {
         return Collections.unmodifiableList(objects);
     }
 
+    /** Ищем объект по имени в пределах текущей локации. */
     public Optional<WorldObject> findObjectByName(String objectName) {
         if (objectName == null || objectName.isBlank()) {
-            throw new IllegalArgumentException("Object name must not be null or blank");
+            throw new IllegalArgumentException("Имя объекта не должно быть пустым");
         }
         return objects.stream().filter(o -> o.getName().equals(objectName)).findFirst();
     }

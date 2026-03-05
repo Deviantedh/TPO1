@@ -21,7 +21,7 @@ class DomainInvariantsTest {
         assertThrows(IllegalStateException.class, crowd::cheer);
     }
 
-    // Проверяет, что флаг величественности окна и этаж читаются корректно.
+    // Проверяет, что входные переменные окна читаются корректно.
     @Test
     void windowMajesticFlagShouldBeReadable() {
         Location secondFloor = new Location("SecondFloor", null);
@@ -45,7 +45,7 @@ class DomainInvariantsTest {
 
         assertEquals(secondFloor, arthur.getLocation());
         assertEquals(PersonState.MOVING, arthur.getState());
-        assertEquals("Arthur moved to SecondFloor", eventLog.last());
+        assertEquals("Arthur переместился в SecondFloor", eventLog.last());
     }
 
     // Проверяет, что объект добавляется в локацию и доступен через поиск по имени.
@@ -85,10 +85,10 @@ class DomainInvariantsTest {
     @Test
     void eventLogLastShouldReturnMostRecentEvent() {
         EventLog eventLog = new EventLog();
-        eventLog.add("one");
-        eventLog.add("two");
+        eventLog.add("событие 1");
+        eventLog.add("событие 2");
 
-        assertEquals("two", eventLog.last());
+        assertEquals("событие 2", eventLog.last());
     }
 
     // Проверяет базовые геттеры идентификатора и имени у Person и Crowd.
