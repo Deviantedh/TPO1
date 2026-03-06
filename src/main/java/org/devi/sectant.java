@@ -31,7 +31,7 @@ public final class sectant {
         return secWithDetails(x, eps, maxTerms).getValue();
     }
 
-    /** Считаем sec(x) и выводим доп инфу для тестера */
+    /** sec(x) с доп инфой для тестера */
     public static Evaluation secWithDetails(BigDecimal x, BigDecimal eps, int maxTerms) {
         validateInputs(x, eps, maxTerms);
 

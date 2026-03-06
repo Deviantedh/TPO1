@@ -2,7 +2,6 @@ package org.devi.domain;
 
 import java.util.UUID;
 
-/** Чел в доменной модели */
 public class Person {
     private final UUID id;
     private final String name;
@@ -52,7 +51,7 @@ public class Person {
         }
     }
 
-    /** Переводим чела в состояние скольжения к целевому объекту. */
+    /** Переводим чела в скольжение к целевому объекту. */
     public void slideTo(WorldObject target) {
         if (target == null) {
             throw new IllegalArgumentException("Целевой объект не должен быть null");
@@ -64,7 +63,7 @@ public class Person {
         }
     }
 
-    /** Переводим чела в состояние речи и фиксирует произнесённую фразу. */
+    /** Заставляем чела говорить и фиксирует произнесённую фразу. */
     public void say(String phrase) {
         if (phrase == null || phrase.isBlank()) {
             throw new IllegalArgumentException("Фраза не должна быть пустой");
