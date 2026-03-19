@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-/** Группа людей в общей локации */
+/** Группа людей в общей локации. */
 public class Crowd {
     private final UUID id;
     private final String name;
@@ -61,17 +61,17 @@ public class Crowd {
         members.remove(member);
     }
 
-    /** Возвращаем текущее количество участников. */
+    /** Возвращает текущее количество участников. */
     public int size() {
         return members.size();
     }
 
-    /** Возвращаем набор участников. */
+    /** Возвращает неизменяемый набор участников. */
     public Set<Person> getMembers() {
         return Collections.unmodifiableSet(members);
     }
 
-    /** Переводим толпу в состояние ликования */
+    /** Переводит толпу в состояние ликования. */
     public void cheer() {
         if (members.size() < 2) {
             throw new IllegalStateException("Для ликования в толпе должно быть минимум 2 участника");

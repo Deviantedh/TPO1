@@ -8,18 +8,18 @@ public class Window extends WorldObject {
     public Window(String name, Location location, boolean majestic, int floorNumber) {
         super(name, location);
         if (floorNumber < 1) {
-            throw new IllegalArgumentException("Номер этажа должен быть положительным >:0 ");
+            throw new IllegalArgumentException("Номер этажа должен быть положительным");
         }
         this.majestic = majestic;
         this.floorNumber = floorNumber;
     }
 
-    /** Является ли окно величественным??? ужас */
+    /** Показывает, является ли окно величественным. */
     public boolean isMajestic() {
         return majestic;
     }
 
-    /** Возвращаем номер этажа, на котором расположено окно. */
+    /** Возвращает номер этажа, на котором расположено окно. */
     public int getFloorNumber() {
         return floorNumber;
     }

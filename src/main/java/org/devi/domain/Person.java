@@ -39,7 +39,7 @@ public class Person {
         return state;
     }
 
-    /** Перемещаем чела в новую локацию и фиксирует событие. */
+    /** Перемещает персону в новую локацию и фиксирует событие. */
     public void moveTo(Location location) {
         if (location == null) {
             throw new IllegalArgumentException("Локация назначения не должна быть null");
@@ -51,7 +51,7 @@ public class Person {
         }
     }
 
-    /** Переводим чела в скольжение к целевому объекту. */
+    /** Переводит персону в состояние скольжения к целевому объекту. */
     public void slideTo(WorldObject target) {
         if (target == null) {
             throw new IllegalArgumentException("Целевой объект не должен быть null");
@@ -63,7 +63,7 @@ public class Person {
         }
     }
 
-    /** Заставляем чела говорить и фиксирует произнесённую фразу. */
+    /** Переводит персону в состояние речи и фиксирует произнесённую фразу. */
     public void say(String phrase) {
         if (phrase == null || phrase.isBlank()) {
             throw new IllegalArgumentException("Фраза не должна быть пустой");

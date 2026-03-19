@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-/** Локация в мире: может иметь родительскую локацию и набор объектов */
+/** Локация в мире: может иметь родительскую локацию и набор объектов. */
 public class Location {
     private final UUID id;
     private final String name;
@@ -36,7 +36,7 @@ public class Location {
         return parent;
     }
 
-    /** Добавляем объект в локацию, если его локация совпадает с этой локацией. */
+    /** Добавляет объект в локацию, если его локация совпадает с этой локацией. */
     public void addObject(WorldObject object) {
         if (object == null) {
             throw new IllegalArgumentException("Объект не должен быть null");
@@ -47,12 +47,12 @@ public class Location {
         objects.add(object);
     }
 
-    /** Возвращаем список объектов локации. */
+    /** Возвращает неизменяемый список объектов локации. */
     public List<WorldObject> getObjects() {
         return Collections.unmodifiableList(objects);
     }
 
-    /** Ищем объект по имени в пределах текущей локации. */
+    /** Ищет объект по имени в пределах текущей локации. */
     public Optional<WorldObject> findObjectByName(String objectName) {
         if (objectName == null || objectName.isBlank()) {
             throw new IllegalArgumentException("Имя объекта не должно быть пустым");

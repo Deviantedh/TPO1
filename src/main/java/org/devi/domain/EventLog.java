@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Журнал доменных событий в порядке их добавления */
+/** Журнал доменных событий в порядке их добавления. */
 public class EventLog {
     private final List<String> events = new ArrayList<>();
 
-    /** Добавляем событие */
+    /** Добавляет событие. */
     public void add(String event) {
         if (event == null || event.isBlank()) {
             throw new IllegalArgumentException("Событие не должно быть пустым");
@@ -16,12 +16,12 @@ public class EventLog {
         events.add(event);
     }
 
-    /** Возвращаем список всех событий. */
+    /** Возвращает неизменяемый список всех событий. */
     public List<String> events() {
         return Collections.unmodifiableList(events);
     }
 
-    /** Возвращаем последнее событие. */
+    /** Возвращает последнее событие. */
     public String last() {
         if (events.isEmpty()) {
             throw new IllegalStateException("Журнал событий пуст");
